@@ -23,8 +23,6 @@ public class UsersController extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html;charset = UTF-8");
 
         String pathInfo = request.getPathInfo();
         String path = PathUTil.getPath(pathInfo);
@@ -37,6 +35,9 @@ public class UsersController extends HttpServlet {
             case "login":
                rs = loginDo(request);
                break;
+            case "disableuser":
+                rs = disableuserDo(request);
+                break;
         }
 
 
@@ -81,6 +82,15 @@ public class UsersController extends HttpServlet {
         //获取session对象
         HttpSession session = request.getSession();
         session.setAttribute("User",rs.getData());
+
+        return rs;
+    }
+    //禁用用户请求
+    private ResponseCode disableuserDo(HttpServletRequest request){
+        String username = request.getParameter("uid");
+
+        ResponseCode rs = uc.selectOne("uid");
+
 
         return rs;
     }
